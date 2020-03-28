@@ -60,7 +60,7 @@ function imageRAW = ConvertDDSMImageToRaw(filename, caseName, pathToCaseFile,...
 
 %% Prepare and execute command of image decompression
 filePath = ['./', caseName, '/', filename];
-
+display(filePath)
 %--------------------------------------------------------------------------
 %               Set Paths Here and take care of Brackets
 %--------------------------------------------------------------------------
@@ -84,12 +84,12 @@ digitizer            = ['"' digitizer '"'];
 commandConversion = ['"', cygwinLocation,'" -c "cd ', pathToJPEGandDDSM2RAWfiles, './ddsmraw2pnm.exe ' rawFileName, ' ', columns, ' ',rows, ' ',digitizer '"'];
 disp('Converting LJPEG1 -> RAW...');
 dos(commandConversion);
-delete(strcat([CollectionDirectory, caseName, '\' ,filename, '.1']));
+delete(strcat([CollectionDirectory, '\', caseName, '\' ,filename, '.1']));
 %// -------------------------------------------------------------------------
 %// Wrtie the image into raw format
 pnmFileName          = [filename '.1-ddsmraw2pnm.pnm'];
 imageRAW                = pnmread(strcat([pathToCaseFile, pnmFileName]));
-delete(strcat([CollectionDirectory, caseName, '\' pnmFileName]));
+delete(strcat([CollectionDirectory, '\', caseName, '\' pnmFileName]));
 
 % imwrite(image,[filename '.png']);
 end
