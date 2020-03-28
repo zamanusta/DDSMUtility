@@ -79,15 +79,17 @@ for t = 1:numOfFolders1
         
         
         %% Lets start.
-        a = struct2cell(dir(strcat(CollectionDirectory, AllCollectionsOfDDSM{1,t})));
+        c= AllCollectionsOfDDSM{1,t}
+        d = strcat(CollectionDirectory, '\', c)        
+        a = struct2cell(dir(d));
         numOfFolders = size(a,2);
         
         for i = 1:numOfFolders
             % DIR command also outputs "." and "..", so we need to skip those
-            if(~strcmp(a{1,i}, '.') && ~strcmp(a{1,i}, '..') && a{5,i} == 1)
+            if(~strcmp(a{1,i}, '.') && ~strcmp(a{1,i}, '..') && a{4,i} == 1)
                 
                 % Get path of first folder.
-                CaseDirectory = [CollectionDirectory, AllCollectionsOfDDSM{1,t}, '\'];
+                CaseDirectory = [CollectionDirectory, '\', AllCollectionsOfDDSM{1,t}, '\'];
                 pathToCaseFile = strcat([CaseDirectory, a{1,i}, '\']);
                 
                 % Find its ICS file
@@ -164,14 +166,14 @@ for t = 1:numOfFolders1
                     disp(strcat(['Converting file ', imageFiles(j).name, '...']));
                     caseNameForThisFunc = [AllCollectionsOfDDSM{1,t}, '/', caseName];
                     disp('Currently in Folder - ');
-                    disp(caseNameForThisFunc);
+                    disp(caseNameForThisFunc);                    
                     try
                         DDSM_formattedToRAW = ConvertDDSMImageToRaw(imageFiles(j).name,...
                             caseNameForThisFunc, pathToCaseFile, widthOfImage, heightOfImage, digitizer, ...
                             pathToJPEGandDDSM2RAWfiles, cygwinLocation, CollectionDirectory);
                     catch
                         continue
-                    end
+                    end                    
                     disp(strcat(['Inside case - ', caseName, '...']));
                     disp(strcat(['Saving ', imageOutputFileFormat, ' ', 'file to disk...']));
                     % Write the image as PNG or other user defined type.
@@ -184,4 +186,3 @@ for t = 1:numOfFolders1
         end
     end
 end
-
